@@ -89,7 +89,7 @@ def makeHcalTowerEffTable():
 
     return table
 
-def makeLLPflaggedJetEffTable():
+def makeHcalLLPflaggedJetEffTable():
     table = Table("L1T efficiency of LLP-flagged jets vs L1 jet ET [GeV]")
     table.description = "The L1T efficiency of the LLP jet trigger in 2023 HCAL timing-scan data: The HCAL LLP-flagged L1T trigger delayed jet fraction versus jet "\
         "\\ET during the 2023 HCAL phase scan demonstrates that the delayed jet fraction approaches unity as the timing shift, with units in ns, is increased. The figure "\
@@ -131,6 +131,70 @@ def makeLLPflaggedJetEffTable():
     table.add_variable(makeVariable(plot=plot_timing_6, label="Timing shift = 6 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
     table.add_variable(makeVariable(plot=plot_timing_8, label="Timing shift = 8 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
     table.add_variable(makeVariable(plot=plot_timing_10, label="Timing shift = 10 ns", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+def makeHcalL1JetHTEffTable(xvar):
+    if xvar == "HT": 
+        name = "event $H_T$"
+        image = "data_Gillian/Plotefficiency_eventHT_log_HLT_v3_MC_eventHT_L1effs_noprelim.pdf"
+        location = "left"
+        reader = RootFileReader("data_Gillian/Figures_Plotefficiency_eventHT_log_HLT_v3_MC_eventHT_L1effs.root")
+    if xvar == "jet": 
+        name = "jet $p_T$"
+        image = "data_Gillian/Plotefficiency_perJet_Pt_log_HLT_v3_MC_L1effs_noprelim.pdf"
+        location = "right"
+        reader = RootFileReader("data_Gillian/Figures_Plotefficiency_perJet_Pt_log_HLT_v3_MC_L1effs.root")
+    table = Table("L1T efficiency of HCAL based-LLP triggers vs. " + name)
+    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers, as a function of event \\HT (\\cmsLeft) and jet \\pt (\\cmsRight), for $\\PH \\to \\PS\\PS \\to "\
+        "\\bbbar\\bbbar$ events with $m_{\\PH}=350\\GeV$, $m_{\\PS}=80\\GeV$, and $\\cTau_{\\PS}=0.5\\unit{m}$ (light blue circles) and $m_{\\PH}=125\\GeV$, $m_{\\PS}=50\\GeV$, and "\
+        "$\\cTau_{\\PS}=3\\unit{m}$ (purple triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs decaying in HB depths 3 or 4, corresponding to "\
+        "$214.2< R<295\cm$ and $\\abs{\\eta}< 1.26$. These LLPs are also required to be matched to an offline jet in HB."
+    # Tefficiencies from the ROOT file
+    if xvar == "HT": 
+        LLP350 = "Plotefficiency_eventHT_log_HLT_v3_MC_eventHT_L1effs_350;1"
+        LLP125 = "Plotefficiency_eventHT_log_HLT_v3_MC_eventHT_L1effs_125;1"
+    if xvar == "jet": 
+        LLP350 = "Plotefficiency_perJet_Pt_log_HLT_v3_MC_L1effs_350;1"
+        LLP125 = "Plotefficiency_perJet_Pt_log_HLT_v3_MC_L1effs_125;1"
+    table.location = "Data from Fig. 23 " + location
+    table.add_image(image)
+    plot_LLP350 = reader.read_teff(LLP350)
+    plot_LLP125 = reader.read_teff(LLP125)
+
+    if xvar == "jet": xAxisVar = Variable("Jet $pT$", is_independent=True, is_binned=False, units="GeV")
+    if xvar == "HT": xAxisVar = Variable("$Event HT$", is_independent=True, is_binned=False, units="GeV")
+    xAxisVar.values = plot_LLP350["x"]
+    table.add_variable(xAxisVar)
+
+    table.add_variable(makeVariable(plot=plot_LLP350, label="$m_H = 350$ GeV, $m_S = 80$ GeV, $c\\tau = 0.5$ m", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_LLP125, label="$m_H = 125$ GeV, $m_S = 50$ GeV, $c\\tau = 3$ m", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+
+    return table
+
+def makeHcalL1DecayREffTable():
+    table = Table("L1T efficiency of HCAL bsaed-LLP triggers vs. LLP decay R")
+    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers as a function of LLP decay radial position $R$ for $\\PH \\to \\PS\\PS \\to \\bbbar\\bbbar$ events with "\
+        "$m_{\\PH}=350\\GeV$, $m_{\\PS}=80\\GeV$, and $c\\tau_{\\PS}=0.5\\unit{m}$ (light blue circles) and $m_{\\PH}=125\\GeV$, $m_{\\PS}=50\\GeV$, and $c\\tau_{\\PS}=3\\unit{m}$ (purple "\
+        "triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs within $\\abs{\\eta} <1.26$ where either the LLP or its decay products are matched to an "\
+        "offline jet in HB with $\\pt>100\\GeV$."
+    image = "data_Gillian/Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs_noprelim.pdf"
+    reader = RootFileReader("data_Gillian/Figures_Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs.root")
+    # Tefficiencies from the ROOT file
+    LLP350 = "Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs_lin;1"
+    LLP125 = "Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs_lin;2"
+    table.location = "Data from Fig. 24"
+    table.add_image(image)
+
+    plot_LLP350 = reader.read_teff(LLP350)
+    plot_LLP125 = reader.read_teff(LLP125)
+
+    xAxisVar = Variable("LLP Decay R", is_independent=True, is_binned=False, units="cm")
+    xAxisVar.values = plot_LLP350["x"]
+    table.add_variable(xAxisVar)
+
+    table.add_variable(makeVariable(plot=plot_LLP350, label="$m_H = 350$ GeV, $m_S = 80$ GeV, $c\\tau = 0.5$ m", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_LLP125, label="$m_H = 125$ GeV, $m_S = 50$ GeV, $c\\tau = 3$ m", is_independent=False, is_binned=False, is_symmetric=False, units=""))
 
     return table
 
@@ -859,7 +923,14 @@ def main():
     submission.add_table(makeHcalTowerEffTable())
 
     # Figure 22
-    submission.add_table(makeLLPflaggedJetEffTable())
+    submission.add_table(makeHcalLLPflaggedJetEffTable())
+
+    # Figure 23
+    submission.add_table(makeHcalL1JetHTEffTable("HT"))
+    submission.add_table(makeHcalL1JetHTEffTable("jet"))
+
+    # Figure 24
+    submission.add_table(makeHcalL1DecayREffTable())
 
     # Figure 31
     submission.add_table(makeDelayedDiPhotonHistTable("eb"))
