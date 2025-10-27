@@ -60,10 +60,10 @@ def makeHcalTowerEffTable():
     table = Table("L1T HCAL tower efficiency vs Timing shift [ns]")
     table.description = "The L1T HCAL trigger tower efficiency of the timing-flagged towers in 2023 HCAL timing-scan data: HCAL delayed timing tower efficiency "\
         "during an HCAL timing phase scan during 2023, with efficiencies split by trigger towers centered at $\\eta\\approx 0$ (blue circles), 0.65 (red squares), "\
-        "1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp turn-on between timing delays of 0--6\\unit{ns} is expected, as the prompt timing "\
-        "range includes pulses up to and including those recorded at a 6\\unit{ns} arrival time (reported in half-ns steps by the TDC), demonstrating the timing "\
-        "trigger performance. The timing-flagged towers must have at least one delayed cell, no prompt cells, and energy ${>}4\\GeV$. The efficiency is calculated "\
-        "relative to towers with any valid timing code, meaning the tower contains at least one cell with energy ${>}4\\GeV$ and a TDC code of prompt, slightly delayed, "\
+        "1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp turn-on between timing delays of 0-6 ns is expected, as the prompt timing "\
+        "range includes pulses up to and including those recorded at a 6 ns arrival time (reported in half-ns steps by the TDC), demonstrating the timing "\
+        "trigger performance. The timing-flagged towers must have at least one delayed cell, no prompt cells, and energy ${>}4$ GeV. The efficiency is calculated "\
+        "relative to towers with any valid timing code, meaning the tower contains at least one cell with energy ${>}4$ GeV and a TDC code of prompt, slightly delayed, "\
         "or very delayed. Multiple flagged towers are required for the HCAL-based displaced- and delayed-jet L1T to be set, and this shows the turn-on at a per-tower "\
         "level relative to incoming pulse timing."
     image = "data_Gillian/QIE_Tower_ieta_fg123_effs_diff_ieta_nopreliminary.pdf"
@@ -92,10 +92,10 @@ def makeHcalTowerEffTable():
 def makeHcalLLPflaggedJetEffTable():
     table = Table("L1T efficiency of LLP-flagged jets vs L1 jet ET [GeV]")
     table.description = "The L1T efficiency of the LLP jet trigger in 2023 HCAL timing-scan data: The HCAL LLP-flagged L1T trigger delayed jet fraction versus jet "\
-        "\\ET during the 2023 HCAL phase scan demonstrates that the delayed jet fraction approaches unity as the timing shift, with units in ns, is increased. The figure "\
-        "shows results inclusive in pseudorapidity for the HCAL barrel, corresponding to $\\abs{\\eta} < 1.35$. The fraction of LLP-flagged L1 jets is compared to all L1 jets "\
-        "from a data set of events enriched with jets or \\ptmiss. No explicit selection criterion is applied on the jet \\ET, though the implicit requirement for a jet to "\
-        "have at least two cells with $\\ET > 4\\GeV$ shapes the resulting jet turn-on curve."
+        "$E_T$ during the 2023 HCAL phase scan demonstrates that the delayed jet fraction approaches unity as the timing shift, with units in ns, is increased. The figure "\
+        "shows results inclusive in pseudorapidity for the HCAL barrel, corresponding to $|{\\eta}| < 1.35$. The fraction of LLP-flagged L1 jets is compared to all L1 jets "\
+        "from a data set of events enriched with jets or $p_T^{\\text{miss}}$. No explicit selection criterion is applied on the jet ET, though the implicit requirement for a jet to "\
+        "have at least two cells with $E_T > 4$ GeV shapes the resulting jet turn-on curve."
     image = "data_Gillian/Jet_Et_all_delay_nopreliminary.pdf"
     reader = RootFileReader("data_Gillian/Jet_Et_all_delay.root")
     # Tefficiencies from the ROOT file
@@ -146,10 +146,10 @@ def makeHcalL1JetHTEffTable(xvar):
         location = "right"
         reader = RootFileReader("data_Gillian/Figures_Plotefficiency_perJet_Pt_log_HLT_v3_MC_L1effs.root")
     table = Table("L1T efficiency of HCAL based-LLP triggers vs. " + name)
-    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers, as a function of event \\HT (\\cmsLeft) and jet \\pt (\\cmsRight), for $\\PH \\to \\PS\\PS \\to "\
-        "\\bbbar\\bbbar$ events with $m_{\\PH}=350\\GeV$, $m_{\\PS}=80\\GeV$, and $\\cTau_{\\PS}=0.5\\unit{m}$ (light blue circles) and $m_{\\PH}=125\\GeV$, $m_{\\PS}=50\\GeV$, and "\
-        "$\\cTau_{\\PS}=3\\unit{m}$ (purple triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs decaying in HB depths 3 or 4, corresponding to "\
-        "$214.2< R<295\cm$ and $\\abs{\\eta}< 1.26$. These LLPs are also required to be matched to an offline jet in HB."
+    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers, as a function of event $H_T$ (left) and jet $p_T$ (right), for $H \\to SS \\to "\
+        "b\\bar{b}b\\bar{b}$ events with $m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=0.5$ m (light blue circles) and $m_{H}=125$ GeV, $m_{S}=50$ GeV, and "\
+        "$c\\tau_{S}=3$ m (purple triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs decaying in HB depths 3 or 4, corresponding to "\
+        "$214.2< R<295$ cm and $|{\\eta}|< 1.26$. These LLPs are also required to be matched to an offline jet in HB."
     # Tefficiencies from the ROOT file
     if xvar == "HT": 
         LLP350 = "Plotefficiency_eventHT_log_HLT_v3_MC_eventHT_L1effs_350;1"
@@ -174,10 +174,10 @@ def makeHcalL1JetHTEffTable(xvar):
 
 def makeHcalL1DecayREffTable():
     table = Table("L1T efficiency of HCAL bsaed-LLP triggers vs. LLP decay R")
-    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers as a function of LLP decay radial position $R$ for $\\PH \\to \\PS\\PS \\to \\bbbar\\bbbar$ events with "\
-        "$m_{\\PH}=350\\GeV$, $m_{\\PS}=80\\GeV$, and $c\\tau_{\\PS}=0.5\\unit{m}$ (light blue circles) and $m_{\\PH}=125\\GeV$, $m_{\\PS}=50\\GeV$, and $c\\tau_{\\PS}=3\\unit{m}$ (purple "\
-        "triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs within $\\abs{\\eta} <1.26$ where either the LLP or its decay products are matched to an "\
-        "offline jet in HB with $\\pt>100\\GeV$."
+    table.description = "The L1T efficiency of the HCAL-based LLP jet triggers as a function of LLP decay radial position $R$ for $H \\to SS \\to b\\bar{b}b\\bar{b}$ events with "\
+        "$m_{H}=350$ GeV, $m_{S}=80$ GeV, and $c\\tau_{S}=0.5$ m (light blue circles) and $m_{H}=125$ GeV, $m_{S}=50$ GeV, and $c\\tau_{S}=3$ m (purple "\
+        "triangles), for 2023 conditions. The trigger efficiency is evaluated for LLPs within $|{\\eta}| <1.26$ where either the LLP or its decay products are matched to an "\
+        "offline jet in HB with $p_T>100$ GeV."
     image = "data_Gillian/Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs_noprelim.pdf"
     reader = RootFileReader("data_Gillian/Figures_Plotefficiency_perJet_MatchedLLP_DecayR_log_HLT_v3_MC_jetE100_L1effs.root")
     # Tefficiencies from the ROOT file
