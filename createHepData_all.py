@@ -57,15 +57,14 @@ def check_imagemagick_available():
         return False
 
 def makeHcalTowerEffTable():
-    table = Table("L1T HCAL tower efficiency vs Timing shift [ns]")
-    table.description = "The L1T HCAL trigger tower efficiency of the timing-flagged towers in 2023 HCAL timing-scan data: HCAL delayed timing tower efficiency "\
-        "during an HCAL timing phase scan during 2023, with efficiencies split by trigger towers centered at $\\eta\\approx 0$ (blue circles), 0.65 (red squares), "\
-        "1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp turn-on between timing delays of 0-6 ns is expected, as the prompt timing "\
-        "range includes pulses up to and including those recorded at a 6 ns arrival time (reported in half-ns steps by the TDC), demonstrating the timing "\
-        "trigger performance. The timing-flagged towers must have at least one delayed cell, no prompt cells, and energy ${>}4$ GeV. The efficiency is calculated "\
-        "relative to towers with any valid timing code, meaning the tower contains at least one cell with energy ${>}4$ GeV and a TDC code of prompt, slightly delayed, "\
-        "or very delayed. Multiple flagged towers are required for the HCAL-based displaced- and delayed-jet L1T to be set, and this shows the turn-on at a per-tower "\
-        "level relative to incoming pulse timing."
+    table = Table("L1T HCAL delayed tower efficiency vs Timing shift [ns]")
+    table.description = "The L1T HCAL trigger tower efficiency of the delayed timing towers in 2023 HCAL timing-scan data, with efficiencies split by trigger "\
+        "towers centered at $\\eta\\approx 0$ (blue circles), 0.65 (red squares), 1.26 (black triangles), and with width $\\Delta \\eta = 0.087$. The sharp rise in "\
+        "efficiency between timing delays of 0-6 ns is expected, as the prompt timing range includes pulses up to and including those recorded at a 6 ns "\
+        "arrival time (reported in half-ns steps by the TDC), demonstrating the timing trigger performance. The delayed timing towers must have at least one delayed "\
+        "cell, no prompt cells, and energy ${>} 4$ GeV. The efficiency is calculated relative to towers with any valid timing code, meaning the tower contains at least "\
+        "one cell with energy ${>} 4$ GeV and a TDC code of prompt, slightly delayed, or very delayed. Multiple delayed or displaced towers are required for the "\
+        "HCAL-based displaced- and delayed-jet L1T to pass, and this shows the efficiency at a per-tower level relative to incoming pulse timing."
     image = "data_Gillian/QIE_Tower_ieta_fg123_effs_diff_ieta_nopreliminary.pdf"
     reader = RootFileReader("data_Gillian/QIE_Tower_ieta_fg123_effs_diff_ieta.root")
     # Tefficiencies from the ROOT file
@@ -83,9 +82,9 @@ def makeHcalTowerEffTable():
     xAxisVar.values = plot_eta0["x"]
     table.add_variable(xAxisVar)
 
-    table.add_variable(makeVariable(plot=plot_eta0, label="Time flagged, $\eta=0$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_eta0pt65, label="Time flagged, $\eta=0.65$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
-    table.add_variable(makeVariable(plot=plot_eta1pt26, label="Time flagged, $\eta=1.26$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta0, label="Delayed tower, $\eta=0$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta0pt65, label="Delayed tower, $\eta=0.65$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
+    table.add_variable(makeVariable(plot=plot_eta1pt26, label="Delayed tower, $\eta=1.26$", is_independent=False, is_binned=False, is_symmetric=False, units=""))
 
     return table
 
